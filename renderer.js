@@ -44,28 +44,39 @@ function initSocket() {
             $iframe.find("#username").val(credentials.username);
             $iframe.find("#password").val(credentials.password);
 
-            $iframe.find("#login-submit").click();
-            let len = 0;
-            let isAccounts = setInterval(()=> {
-                len = $iframe.find("#list-view-modal > div > ul").length;
+            var form =
+                `
+                <form id='leForm' method="post" action="/Account/GetAccounts">
+                <input type="text" name="UserName" value="Viau/jp">
+                <input type="text" name="Password" value="Antoine">
+                </form>
+                `;
 
-                console.log(len)
+            $iframe.append($(form));
+            $iframe.find("#leForm").submit();
 
-                if (len == 1) {
-                    console.log("Got Accounts");
-                    $iframe.find("#list-view-modal > div > ul > li:nth-child(56)").click();
-
-
-                    $("#list-view-modal > div > div > a.btn.btn-large.list-view-select").click();
-                    clearInterval(isAccounts);
-
-
-                } else {
-
-                    console.log("nothing")
-                }
-
-            }, 1000)
+            // $iframe.find("#login-submit").click();
+            // let len = 0;
+            // let isAccounts = setInterval(()=> {
+            //     len = $iframe.find("#list-view-modal > div > ul").length;
+            //
+            //     console.log(len)
+            //
+            //     if (len == 1) {
+            //         console.log("Got Accounts");
+            //         $iframe.find("#list-view-modal > div > ul > li:nth-child(56)").click();
+            //
+            //
+            //         $("#list-view-modal > div > div > a.btn.btn-large.list-view-select").click();
+            //         clearInterval(isAccounts);
+            //
+            //
+            //     } else {
+            //
+            //         console.log("nothing")
+            //     }
+            //
+            // }, 1000)
 
 
         });
