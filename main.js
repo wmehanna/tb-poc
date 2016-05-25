@@ -50,7 +50,7 @@ http.listen(3000, function () {
 let win;
 
 function createWindow() {
-    win = new BrowserWindow({width: '100%'})
+    win = new BrowserWindow({width: '100%', fullscreen : true})
 
     win.loadURL(`file://${__dirname}/index.html`)
     // win.webContents.openDevTools();

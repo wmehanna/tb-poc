@@ -16,7 +16,6 @@ function initSocket() {
         setTimeout(function(){
             var $iframe = $("#iframe");
             var $body = $iframe.contents().find('body');
-            console.log($body)
             $body.find(".login-group").html("<h1>Authentifiez-vous sur votre téléphone intelligent.</h1>")
 
         }, 100)
