@@ -4,6 +4,15 @@ var socket;
 function initSocket() {
     var baserUrl = "http://portal.tileboard.ca/";
 
+    var welcomeMessage = function(){
+        setTimeout(function(){
+            var $iframe = $("#iframe");
+            var $body = $iframe.contents().find('body');
+            $body.find(".login-group").html("<h1>Authentifiez-vous sur votre téléphone intelligent.</h1>")
+
+        }, 100)
+    }
+
     socket = io("http://localhost:3000", {
         reconnectionDelay: 0,
         reconnectionDelayMax: 0,
@@ -13,12 +22,7 @@ function initSocket() {
     });
 
     socket.on("connect", ()=> {
-        setTimeout(function(){
-            var $iframe = $("#iframe");
-            var $body = $iframe.contents().find('body');
-            $body.find(".login-group").html("<h1>Authentifiez-vous sur votre téléphone intelligent.</h1>")
-
-        }, 100)
+        welcomeMessage();
 
         socket.on('modeDiaporamaSocket', (mode)=> {
             var $iframe = $("#iframe");
@@ -31,6 +35,7 @@ function initSocket() {
         socket.on('logoutSocket', (message)=> {
             var $iframe = $("#iframe");
             $iframe.attr('src', baserUrl + '/Account/LogOut');
+            welcomeMessage();
         });
 
         socket.on('loginSocket', (credentials)=> {

@@ -20,6 +20,7 @@ io.on("connection", function (socket) {
     });
 
     expressApp.post('/api/login', function (req, res) {
+        console.log(req.body)
         if (!req.body || !req.body.username || !req.body.password) return res.sendStatus(400);
 
         let username = req.body.username;
