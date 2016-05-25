@@ -20,16 +20,22 @@ io.on("connection", function (socket) {
     });
 
     expressApp.post('/api/login', function (req, res) {
-        console.log(req.body)
         if (!req.body || !req.body.username || !req.body.password) return res.sendStatus(400);
 
         let username = req.body.username;
         let password = req.body.password;
 
-        socket.emit('loginSocket', req.body)
+        socket.emit('loginSocket', req.body);
 
-        res.send('welcome, ' + req.body.username)
+        res.send('welcome, ' + req.body.username);
     });
+
+    expressApp.post('/api/diaporama', function (req, res) {
+        let mode = req.body.diaporama;
+
+        socket.emit("modeDiaporamaSocket", mode);
+        res.send('Diaporama is '+ mode)
+    })
 
     expressApp.post('/api/logout', function (req, res) {
         socket.emit("logoutSocket", "GoodBye");
@@ -38,13 +44,13 @@ io.on("connection", function (socket) {
 });
 
 http.listen(3000, function () {
-    console.log('Tileboard PIC app listening on port 3000!');
+    console.log('Tileboard POC app listening on port 3000!');
 });
 
 let win;
 
 function createWindow() {
-    win = new BrowserWindow({width: 850, height: 720, 'node-integration': false})
+    win = new BrowserWindow({width: '100%'})
 
     win.loadURL(`file://${__dirname}/index.html`)
     // win.webContents.openDevTools();

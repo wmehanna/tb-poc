@@ -13,11 +13,24 @@ function initSocket() {
     });
 
     socket.on("connect", ()=> {
+        setTimeout(function(){
+            var $iframe = $("#iframe");
+            var $body = $iframe.contents().find('body');
+            console.log($body)
+            $body.find(".login-group").html("<h1>Authentifiez-vous sur votre téléphone intelligent.</h1>")
 
+        }, 100)
+
+        socket.on('modeDiaporamaSocket', (mode)=> {
+            var $iframe = $("#iframe");
+            var $body = $iframe.contents().find('body');
+            if(mode == 'on') $body.find("#slideshowbutton").click();
+
+            else $body.find("#buttonSlideshowModal > span:nth-child(1)").click();
+        });
 
         socket.on('logoutSocket', (message)=> {
             var $iframe = $("#iframe");
-            var $body = $iframe.contents().find('body');
             $iframe.attr('src', baserUrl + '/Account/LogOut');
         });
 
@@ -25,7 +38,7 @@ function initSocket() {
             var $iframe = $("#iframe");
             var $body = $iframe.contents().find('body');
 
-            $("#welcomeMessage").text("Welcome " + credentials.username);
+            // $("#welcomeMessage").text("Welcome " + credentials.username);
 
             var $loadingIcon = '<i class="fa fa-circle-o-notch fa-spin fa-4x" style="margin-right:auto; margin-left:auto;"></i>';
 
