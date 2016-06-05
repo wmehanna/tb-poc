@@ -10,7 +10,7 @@ function initSocket() {
             var $body = $iframe.contents().find('body');
             $body.find(".login-group").html("<h1>Authentifiez-vous sur votre téléphone intelligent.</h1>")
 
-        }, 100)
+        }, 250)
     }
 
     socket = io("http://localhost:3000", {
