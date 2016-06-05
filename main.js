@@ -38,6 +38,13 @@ io.on("connection", function (socket) {
         res.send('Diaporama is '+ mode)
     })
 
+    expressApp.post('/api/line', function (req, res) {
+        let line = req.body.line;
+
+        socket.emit("changeLineSocket", line);
+        res.send('Line id changed to :  '+ line)
+    })
+
     expressApp.post('/api/logout', function (req, res) {
         socket.emit("logoutSocket", "GoodBye");
         res.send('goodbye')

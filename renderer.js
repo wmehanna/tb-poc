@@ -32,6 +32,12 @@ function initSocket() {
             else $body.find("#buttonSlideshowModal > span:nth-child(1)").click();
         });
 
+        socket.on('changeLineSocket', (line)=> {
+            var $iframe = $("#iframe");
+            var $body = $iframe.contents().find('body');
+            $body.find("#"+line).click();
+        });
+
         socket.on('logoutSocket', (message)=> {
             var $iframe = $("#iframe");
             $iframe.attr('src', baserUrl + '/Account/LogOut');
