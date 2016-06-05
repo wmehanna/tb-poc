@@ -23,10 +23,11 @@
   },
   "homepage": "https://github.com/electron/electron-quick-start#readme",
   "devDependencies": {
-    "electron-prebuilt": "^1.0.1"
+    "electron-prebuilt": "^1.2.0"
   },
   "dependencies": {
     "body-parser": "^1.15.1",
+    "express": "^4.13.4",
     "jquery": "^2.2.4",
     "socketio": "^1.0.0"
   }
