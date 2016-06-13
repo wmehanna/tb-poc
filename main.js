@@ -1,11 +1,11 @@
-const electron = require('electron')
+const {ipcMain} = require('electron')
 
+const electron = require('electron');
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
 var expressApp = require('express')();
 var http = require("http").Server(expressApp);
-var io = require("socket.io")(http);
 
 var bodyParser = require('body-parser')
 
@@ -13,43 +13,41 @@ expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.urlencoded({extended: true}));
 
 
-io.on("connection", function (socket) {
+expressApp.post('/api/login', function (req, res) {
+    if (!req.body || !req.body.username || !req.body.password) return res.sendStatus(400);
 
-    socket.on("disconnect", function () {
-        console.log("user disconnected");
-    });
+    let body = req.body;
+    let username = body.username;
+    let password = body.password;
 
-    expressApp.post('/api/login', function (req, res) {
-        console.log(req.body)
-        if (!req.body || !req.body.username || !req.body.password) return res.sendStatus(400);
+    res.send('welcome, ' + username);
 
-        let username = req.body.username;
-        let password = req.body.password;
-
-        socket.emit('loginSocket', req.body);
-
-        res.send('welcome, ' + req.body.username);
-    });
-
-    expressApp.post('/api/diaporama', function (req, res) {
-        let mode = req.body.diaporama;
-
-        socket.emit("modeDiaporamaSocket", mode);
-        res.send('Diaporama is '+ mode)
-    })
-
-    expressApp.post('/api/line', function (req, res) {
-        let line = req.body.line;
-
-        socket.emit("changeLineSocket", line);
-        res.send('Line id changed to :  '+ line)
-    })
-
-    expressApp.post('/api/logout', function (req, res) {
-        socket.emit("logoutSocket", "GoodBye");
-        res.send('goodbye')
-    })
+    win.webContents.send('loginSocket', body);
 });
+
+
+expressApp.post('/api/logout', function (req, res) {
+    res.send('goodbye')
+    win.webContents.send("logoutSocket", "GoodBye");
+});
+
+expressApp.post('/api/diaporama', function (req, res) {
+    let mode = req.body.diaporama;
+
+    res.send('Diaporama is ' + mode);
+
+    win.webContents.send("modeDiaporamaSocket", mode);
+})
+
+expressApp.post('/api/line', function (req, res) {
+    let line = req.body.line;
+
+    res.send('Line id changed to :  ' + line);
+
+    win.webContents.send("changeLineSocket", line);
+})
+
+
 
 http.listen(3000, function () {
     console.log('Tileboard POC app listening on port 3000!');
@@ -58,7 +56,7 @@ http.listen(3000, function () {
 let win;
 
 function createWindow() {
-    win = new BrowserWindow({width: '100%', fullscreen : true})
+    win = new BrowserWindow({width: '100%', fullscreen: true})
 
     win.loadURL(`file://${__dirname}/index.html`)
     // win.webContents.openDevTools();
