@@ -6,10 +6,6 @@
   "scripts": {
     "start": "electron main.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/electron/electron-quick-start.git"
-  },
   "dependencies": {
     "electron-prebuilt": "^1.2.0",
     "body-parser": "^1.15.1",

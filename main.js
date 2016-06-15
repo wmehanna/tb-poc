@@ -22,13 +22,13 @@ expressApp.post('/api/login', function (req, res) {
 
     res.send('welcome, ' + username);
 
-    win.webContents.send('loginSocket', body);
+    win.webContents.send('loginIPC', body);
 });
 
 
 expressApp.post('/api/logout', function (req, res) {
     res.send('goodbye')
-    win.webContents.send("logoutSocket", "GoodBye");
+    win.webContents.send("logoutIPC", "GoodBye");
 });
 
 expressApp.post('/api/diaporama', function (req, res) {
@@ -36,7 +36,7 @@ expressApp.post('/api/diaporama', function (req, res) {
 
     res.send('Diaporama is ' + mode);
 
-    win.webContents.send("modeDiaporamaSocket", mode);
+    win.webContents.send("modeDiaporamaIPC", mode);
 })
 
 expressApp.post('/api/line', function (req, res) {
@@ -44,7 +44,7 @@ expressApp.post('/api/line', function (req, res) {
 
     res.send('Line id changed to :  ' + line);
 
-    win.webContents.send("changeLineSocket", line);
+    win.webContents.send("changeLineIPC", line);
 })
 
 
@@ -60,6 +60,7 @@ function createWindow() {
 
     win.loadURL(`file://${__dirname}/index.html`)
     // win.webContents.openDevTools();
+    win.setMenu(null);
 
     win.on('closed', function () {
         win = null
