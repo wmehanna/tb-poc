@@ -8,10 +8,37 @@ var expressApp = require('express')();
 var http = require("http").Server(expressApp);
 
 var bodyParser = require('body-parser')
+var os = require('os');
+var ifaces = os.networkInterfaces();
+
+
 
 expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.urlencoded({extended: true}));
 
+expressApp.get('/api/ip', function (req, res) {
+    let names = Object.keys(ifaces);
+    let result = [];
+
+    names.forEach((name, i)=>{
+        if(name != 'lo0'){
+            let interfaces = ifaces[name];
+            interfaces.forEach((interface, j) =>{
+                if(interface.family == 'IPv4'){
+                    if(interface.address != null){
+                        result.push({iface : name, ip : interface.address})
+                    }
+                }
+            });
+
+        }
+    })
+    res.status(200).send(result);
+});
+
+expressApp.get('/api/health', function (req, res) {
+    res.json("Ok");
+});
 
 expressApp.post('/api/login', function (req, res) {
     if (!req.body || !req.body.username || !req.body.password) return res.sendStatus(400);
@@ -67,7 +94,9 @@ function createWindow() {
     })
 }
 
-app.on('ready', createWindow)
+app.on('ready', function(){
+    createWindow();
+})
 
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {

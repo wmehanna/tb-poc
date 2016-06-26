@@ -2,13 +2,13 @@
   "name": "Tb-poc",
   "version": "0.0.1",
   "main": "main.js",
-  "private" : true,
+  "private": true,
   "scripts": {
     "start": "electron main.js"
   },
   "dependencies": {
-    "electron-prebuilt": "^1.2.0",
     "body-parser": "^1.15.1",
+    "electron-prebuilt": "^1.2.5",
     "express": "^4.13.4",
     "jquery": "^2.2.4"
   }

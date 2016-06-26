@@ -6,8 +6,18 @@ let welcomeMessage = function () {
     setTimeout(function () {
         let $iframe = $("#iframe");
         let $body = $iframe.contents().find('body');
-        $body.find(".login-group").html("<h1>Authentifiez-vous sur votre téléphone intelligent.</h1>");
-    }, 450)
+        $body.find("#forgot-password").hide();
+
+        $.get("http://localhost:3000/api/ip", function (ifaces) {
+
+            $body.find(".login-group").html("<h1>Authentifiez-vous sur votre téléphone intelligent");
+
+            ifaces.forEach((iface, key) =>{
+                $body.find(".login-group").append("<p/>"+"http://"+iface.ip + ":3000.</h1><p/>");
+            })
+        });
+
+    }, 2000)
 }
 
 
